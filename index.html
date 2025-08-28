@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chart of Accounts Classifier</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    input, button { padding: 8px; margin-top: 10px; }
+    #result { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Chart of Accounts Classifier</h2>
+  <p>Enter an account name exactly as it appears in your chart:</p>
+  
+  <input type="text" id="accountInput" placeholder="Type account name here...">
+  <button onclick="classify()">Classify</button>
+  
+  <div id="result"></div>
+
+  <script>
+    function classify() {
+      const input = document.getElementById("accountInput").value.trim().toLowerCase();
+      let category = "Not found (check spelling or add more accounts).";
+      let normalBalance = "";
+
+      // Chart of Accounts dictionary with normal balances
+      const accounts = {
+        // Assets
+        "cash": ["Asset", "Debit"],
+        "accounts receivable": ["Asset", "Debit"],
+        "allowance for doubtful accounts": ["Asset (contra-asset)", "Credit"],
+        "interest receivable": ["Asset", "Debit"],
+        "inventory": ["Asset", "Debit"],
+        "supplies": ["Asset", "Debit"],
+        "prepaid insurance": ["Asset", "Debit"],
+        "prepaid rent": ["Asset", "Debit"],
+        "land": ["Asset", "Debit"],
+        "equipment": ["Asset", "Debit"],
+        "accumulated depreciation—equipment": ["Asset (contra-asset)", "Credit"],
+        "buildings": ["Asset", "Debit"],
+        "accumulated depreciation—buildings": ["Asset (contra-asset)", "Credit"],
+        "copyrights": ["Asset", "Debit"],
+        "goodwill": ["Asset", "Debit"],
+        "patents": ["Asset", "Debit"],
+
+        // Liabilities
+        "notes payable": ["Liability", "Credit"],
+        "accounts payable": ["Liability", "Credit"],
+        "unearned service revenue": ["Liability", "Credit"],
+        "salaries and wages payable": ["Liability", "Credit"],
+        "interest payable": ["Liability", "Credit"],
+        "dividends payable": ["Liability", "Credit"],
+        "income taxes payable": ["Liability", "Credit"],
+        "bonds payable": ["Liability", "Credit"],
+        "discount on bonds payable": ["Liability (contra-liability)", "Debit"],
+        "premium on bonds payable": ["Liability", "Credit"],
+        "mortgage payable": ["Liability", "Credit"],
+
+        // Stockholders' Equity
+        "common stock": ["Stockholders' Equity", "Credit"],
+        "paid-in capital in excess of par value—common stock": ["Stockholders' Equity", "Credit"],
+        "preferred stock": ["Stockholders' Equity", "Credit"],
+        "paid-in capital in excess of par value—preferred stock": ["Stockholders' Equity", "Credit"],
+        "treasury stock": ["Stockholders' Equity (contra-equity)", "Debit"],
+        "retained earnings": ["Stockholders' Equity", "Credit"],
+        "dividends": ["Stockholders' Equity (reduces retained earnings)", "Debit"],
+        "income summary": ["Stockholders' Equity (temporary)", "Credit"],
+
+        // Revenues
+        "service revenue": ["Revenue", "Credit"],
+        "sales revenue": ["Revenue", "Credit"],
+        "sales discounts": ["Revenue (contra-revenue)", "Debit"],
+        "sales returns and allowances": ["Revenue (contra-revenue)", "Debit"],
+        "interest revenue": ["Revenue", "Credit"],
+        "gain on disposal of plant assets": ["Revenue (gain)", "Credit"],
+
+        // Expenses
+        "administrative expenses": ["Expense", "Debit"],
+        "amortization expense": ["Expense", "Debit"],
+        "bad debt expense": ["Expense", "Debit"],
+        "cost of goods sold": ["Expense", "Debit"],
+        "depreciation expense": ["Expense", "Debit"],
+        "freight-out": ["Expense", "Debit"],
+        "income tax expense": ["Expense", "Debit"],
+        "insurance expense": ["Expense", "Debit"],
+        "interest expense": ["Expense", "Debit"],
+        "loss on disposal of plant assets": ["Expense (loss)", "Debit"],
+        "maintenance and repairs expense": ["Expense", "Debit"],
+        "rent expense": ["Expense", "Debit"],
+        "salaries and wages expense": ["Expense", "Debit"],
+        "selling expenses": ["Expense", "Debit"],
+        "supplies expense": ["Expense", "Debit"],
+        "utilities expense": ["Expense", "Debit"]
+      };
+
+      if (accounts[input]) {
+        category = accounts[input][0];
+        normalBalance = accounts[input][1];
+        document.getElementById("result").innerText = 
+          `"${input}" is classified as: ${category} | Normal Balance: ${normalBalance}`;
+      } else {
+        document.getElementById("result").innerText = category;
+      }
+    }
+  </script>
+</body>
+</html>
